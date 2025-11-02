@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>111</title>
+</head>
+<body>
+    <div id="player-container"></div>
+
+    <div id="info">
+        <p>看看介绍</p>
+    </div>
+
+    <script>
+        async function fetchPlayerData() {
+            try {
+                const response = await fetch('/players');
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('获取数据失败:', error);
+                return {
+                    'B费': 'B费摊手',
+                    '库尼亚': '库尼亚帅锅',
+                    '阿莫林': '阿莫林惨',
+                    '梅西': '梅西🈚️'
+                };
+            }
+        }
+
+        async function createSpansFromData() {
+            const playerInfo = await fetchPlayerData();
+            const container = document.getElementById('player-container');
+            
+            for (const [name, info] of Object.entries(playerInfo)) {
+                const span = document.createElement('span');
+                span.id = `span-${name}`;
+                span.textContent = name;
+                
+
+                span.addEventListener('click', function() {
+                    document.getElementById('info').innerHTML = '<p>' + info + '</p>';
+                });
+                
+                container.appendChild(span);
+            }
+        }
+
+        createSpansFromData();
+    </script>
+</body>
+</html>
